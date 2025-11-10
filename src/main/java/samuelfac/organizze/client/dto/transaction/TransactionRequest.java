@@ -3,7 +3,7 @@ package samuelfac.organizze.client.dto.transaction;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import org.springframework.format.annotation.DateTimeFormat;
-import samuelfac.organizze.client.dto.Tags;
+import samuelfac.organizze.client.dto.common.Tags;
 
 import java.time.LocalDate;
 import java.util.List;
