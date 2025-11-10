@@ -1,6 +1,7 @@
 package samuelfac.organizze.client.dto.transaction;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Builder;
 import lombok.experimental.FieldNameConstants;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -34,7 +35,7 @@ public record Transaction(
         @JsonProperty("oposite_account_id") Long opositeAccountId,
         @JsonProperty("created_at") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) @FieldNameConstants.Exclude ZonedDateTime createdAt,
         @JsonProperty("updated_at") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) @FieldNameConstants.Exclude ZonedDateTime updatedAt,
-        List<Tags> tags,
+        @JsonProperty("tags") @JsonDeserialize(using = TagsListDeserializer.class) List<Tags> tags,
         List<Attachment> attachments,
         @JsonProperty("recurrence_id") Long recurrenceId,
         Boolean deleted
