@@ -17,4 +17,15 @@ public record Budget(
         String percentage
 
 ) {
+    public static final class Fields {
+        public static final String AMOUNT_IN_CENTS = "amount_in_cents";
+        public static final String CATEGORY_ID = "category_id";
+        public static final String DATE = "date";
+        public static final String ACTIVITY_TYPE = "activity_type";
+        public static final String TOTAL = "total";
+        public static final String PREDICTED_TOTAL = "predicted_total";
+        public static final String PERCENTAGE = "percentage";
+
+        private Fields() {} // prevent instantiation
+    }
 }

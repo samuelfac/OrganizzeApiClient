@@ -2,12 +2,10 @@ package samuelfac.organizze.client.dto.categorie;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
-import lombok.experimental.FieldNameConstants;
 
 @Builder
-@FieldNameConstants
 public record Categorie(
-        @FieldNameConstants.Exclude Long id,
+        Long id,
         String name,
         String color,
         @JsonProperty("parent_id") Long parentId,
@@ -15,9 +13,25 @@ public record Categorie(
         Boolean fixed,
         Boolean essential,
         @JsonProperty("default") Boolean _default,
-        @FieldNameConstants.Exclude String uuid,
+        String uuid,
         String kind,
         Boolean archived,
         Boolean deleted
 ) {
+    public static final class Fields {
+        public static final String ID = "id";
+        public static final String NAME = "name";
+        public static final String COLOR = "color";
+        public static final String PARENT_ID = "parent_id";
+        public static final String GROUP_ID = "group_id";
+        public static final String FIXED = "fixed";
+        public static final String ESSENTIAL = "essential";
+        public static final String DEFAULT = "default";
+        public static final String UUID = "uuid";
+        public static final String KIND = "kind";
+        public static final String ARCHIVED = "archived";
+        public static final String DELETED = "deleted";
+
+        private Fields() {} // prevent instantiation
+    }
 }

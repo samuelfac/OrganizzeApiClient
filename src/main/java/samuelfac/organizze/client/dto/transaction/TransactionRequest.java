@@ -27,4 +27,24 @@ public record TransactionRequest(
         @JsonProperty("recurrence_attributes") RecurrenceAttribute recurrenceAttributes,
         @JsonProperty("installments_attributes") InstallmentsAttribute installmentsAttributes
 ) {
+    public static final class Fields {
+        public static final String DESCRIPTION = "description";
+        public static final String DATE = "date";
+        public static final String PAID = "paid";
+        public static final String AMOUNT_CENTS = "amount_cents";
+        public static final String ACCOUNT_ID = "account_id";
+        public static final String CATEGORY_ID = "category_id";
+        public static final String CREDIT_CARD_ID = "credit_card_id";
+        public static final String CREDIT_CARD_INVOICE_ID = "credit_card_invoice_id";
+        public static final String PAID_CREDIT_CARD_ID = "paid_credit_card_id";
+        public static final String PAID_CREDIT_CARD_INVOICE_ID = "paid_credit_card_invoice_id";
+        public static final String OPPOSITE_TRANSACTION_ID = "oposite_transaction_id";
+        public static final String OPPOSITE_ACCOUNT_ID = "oposite_account_id";
+        public static final String TAGS = "tags";
+        public static final String ATTACHMENTS = "attachments";
+        public static final String RECURRENCE_ATTRIBUTES = "recurrence_attributes";
+        public static final String INSTALLMENTS_ATTRIBUTES = "installments_attributes";
+
+        private Fields() {} // prevent instantiation
+    }
 }

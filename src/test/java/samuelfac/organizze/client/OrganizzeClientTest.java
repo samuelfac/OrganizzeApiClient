@@ -141,7 +141,7 @@ class OrganizzeClientTest {
         assertNotNull(allTransactions);//
 
         Map<String, Object> transactionValues = new HashMap<>();
-        transactionValues.put(Transaction.Fields.description, "TEST Changed");
+        transactionValues.put(Transaction.Fields.DESCRIPTION, "TEST Changed");
         transaction = client.updateTransaction(transaction.id(), transactionValues);
         assertNotNull(transaction);
 
