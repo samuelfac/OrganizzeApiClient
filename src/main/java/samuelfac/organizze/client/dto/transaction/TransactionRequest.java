@@ -22,6 +22,7 @@ public record TransactionRequest(
         @JsonProperty("paid_credit_card_invoice_id") Long paidCreditCardInvoiceId,
         @JsonProperty("oposite_transaction_id") Long opositeTransactionId,
         @JsonProperty("oposite_account_id") Long opositeAccountId,
+        String notes,
         List<Tags> tags,
         List<Attachment> attachments,
         @JsonProperty("recurrence_attributes") RecurrenceAttribute recurrenceAttributes,
@@ -40,6 +41,7 @@ public record TransactionRequest(
         public static final String PAID_CREDIT_CARD_INVOICE_ID = "paid_credit_card_invoice_id";
         public static final String OPPOSITE_TRANSACTION_ID = "oposite_transaction_id";
         public static final String OPPOSITE_ACCOUNT_ID = "oposite_account_id";
+        public static final String NOTES = "notes";
         public static final String TAGS = "tags";
         public static final String ATTACHMENTS = "attachments";
         public static final String RECURRENCE_ATTRIBUTES = "recurrence_attributes";
