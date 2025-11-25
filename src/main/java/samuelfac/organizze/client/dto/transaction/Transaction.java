@@ -1,10 +1,10 @@
 package samuelfac.organizze.client.dto.transaction;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Builder;
 import org.springframework.format.annotation.DateTimeFormat;
 import samuelfac.organizze.client.dto.common.Tags;
+import tools.jackson.databind.annotation.JsonDeserialize;
 
 import java.time.LocalDate;
 import java.time.ZonedDateTime;

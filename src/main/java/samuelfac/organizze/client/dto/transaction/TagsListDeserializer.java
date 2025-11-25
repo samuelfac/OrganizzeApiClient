@@ -1,14 +1,14 @@
 package samuelfac.organizze.client.dto.transaction;
 
-import com.fasterxml.jackson.core.ObjectCodec;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.fasterxml.jackson.databind.JsonNode;
 import samuelfac.organizze.client.dto.common.Tags;
+import tools.jackson.core.JacksonException;
+import tools.jackson.core.JsonParser;
+import tools.jackson.core.ObjectReadContext;
+import tools.jackson.core.type.TypeReference;
+import tools.jackson.databind.DeserializationContext;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ValueDeserializer;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -17,20 +17,20 @@ import java.util.stream.Collectors;
 /**
  * Handles inconsistent Organizze payloads where "tags" can be either an array or an empty string.
  */
-public class TagsListDeserializer extends JsonDeserializer<List<Tags>> {
+public class TagsListDeserializer extends ValueDeserializer<List<Tags>> {
 
     private static final TypeReference<List<Tags>> TAGS_LIST_TYPE = new TypeReference<List<Tags>>() {};
 
     @Override
-    public List<Tags> deserialize(JsonParser parser, DeserializationContext ctxt) throws IOException {
-        JsonNode node = parser.getCodec().readTree(parser);
+    public List<Tags> deserialize(JsonParser parser, DeserializationContext ctxt) throws JacksonException {
+        JsonNode node = parser.readValueAsTree();
 
         if (node == null || node.isNull()) {
             return null;
         }
 
-        if (node.isTextual()) {
-            String value = node.asText();
+        if (node.isString()) {
+            String value = node.asString();
             if (value == null || value.isBlank()) {
                 return Collections.emptyList();
             }
@@ -45,10 +45,12 @@ public class TagsListDeserializer extends JsonDeserializer<List<Tags>> {
         }
 
         if (node.isArray()) {
-            ObjectCodec codec = parser.getCodec();
+            ObjectReadContext codec = parser.objectReadContext();
             return codec.readValue(node.traverse(codec), TAGS_LIST_TYPE);
         }
 
-        throw new IOException("Unsupported JSON type for tags",ctxt.reportInputMismatch(List.class, "Unsupported JSON type for tags: %s", node.getNodeType()));
+        throw new RuntimeException("Unsupported JSON type for tags", ctxt.reportInputMismatch(List.class, "Unsupported JSON type for tags: %s", node.getNodeType()));
     }
+
+
 }

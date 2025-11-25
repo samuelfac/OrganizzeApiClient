@@ -2,17 +2,13 @@ package samuelfac.organizze.client;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.client.AutoConfigureWebClient;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Import;
-import samuelfac.organizze.client.config.FeignConfig;
+import samuelfac.organizze.client.config.HttpExchangeConfig;
 import samuelfac.organizze.client.dto.account.AccountRequest;
 import samuelfac.organizze.client.dto.categorie.CategorieDeleteRequest;
 import samuelfac.organizze.client.dto.categorie.CategorieRequest;
 import samuelfac.organizze.client.dto.creditcard.CreditCardRequest;
-import samuelfac.organizze.client.dto.transaction.InstallmentsAttribute;
-import samuelfac.organizze.client.dto.transaction.Periodicity;
 import samuelfac.organizze.client.dto.transaction.Transaction;
 import samuelfac.organizze.client.dto.transaction.TransactionDeleteRequest;
 import samuelfac.organizze.client.dto.transaction.TransactionRequest;
@@ -26,9 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 
 @SpringBootTest(classes = TestConfig.class)
-@EnableFeignClients
-@AutoConfigureWebClient
-@Import(FeignConfig.class)
+@Import(HttpExchangeConfig.class)
 class OrganizzeClientTest {
 
 
@@ -121,6 +115,8 @@ class OrganizzeClientTest {
 
     @Test
     void testTransactionOperations() {
+        var allTransactions = client.getAllTransactions(null, null, null);
+        assertNotNull(allTransactions);
 
 
         var transaction = client.createTransaction(TransactionRequest.builder()
@@ -128,17 +124,14 @@ class OrganizzeClientTest {
                 .amountCents(-1)
                 .date(LocalDate.now())
                 .paid(true)
-                .accountId(client.getAllAccounts().stream().findAny().get().id())
-                .categoryId(client.getAllCategories().stream().findAny().get().id())
-                .installmentsAttributes(InstallmentsAttribute.builder().periodicity(Periodicity.monthly).total(1).build())
+                .accountId(client.getAllAccounts().stream().filter(account -> (account.deleted() == null || !account.deleted()) && (account.archived() == null || !account.archived())).findAny().orElseThrow().id())
+                .categoryId(client.getAllCategories().stream().filter(categorie -> (categorie.deleted() == null || !categorie.deleted()) && (categorie.archived() == null || !categorie.archived())).findAny().orElseThrow().id())
+                .notes("TEST")
                 .build());
         assertNotNull(transaction);
 
         transaction = client.getTransaction(transaction.id(), null, null, null);
         assertNotNull(transaction);
-
-        var allTransactions = client.getAllTransactions(null, null, null);
-        assertNotNull(allTransactions);//
 
         Map<String, Object> transactionValues = new HashMap<>();
         transactionValues.put(Transaction.Fields.DESCRIPTION, "TEST Changed");
