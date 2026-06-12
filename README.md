@@ -12,7 +12,7 @@ Para adicionar a biblioteca ao seu projeto Maven, inclua a seguinte dependência
 <dependency>
   <groupId>samuelfac</groupId>
   <artifactId>organizze.client</artifactId>
-  <version>1.2.1</version>
+  <version>1.5.0</version>
 </dependency>
 ```
 
